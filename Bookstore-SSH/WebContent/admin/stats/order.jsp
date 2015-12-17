@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import = "java.util.*" %>
+<%@ page import = "dpp.bookstore.pojo.Order" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>User orders</title>
+</head>
+<body>
+	<div>
+		<jsp:include page = "/head.jsp" />
+	</div>
+	
+	<div>
+	<%
+		Vector<Order> orders = (Vector<Order>)request.getAttribute("orders");
+		int size = orders.size();
+		if (size > 0) {
+	%>
+		<table border = "1">
+			<tr>
+				<td align = "center">Username</td>
+				<td align = "center">ISBN</td>
+				<td align = "center">Quantity</td>
+				<td align = "center">Date</td>
+			</tr>
+		<%
+			for(int i = 0; i < size; i++) {
+		%>
+				<tr>
+					<td><%= orders.get(i).getUsername() %>&nbsp;</td>
+					<td><%= orders.get(i).getIsbn() %>&nbsp;</td>
+					<td><%= orders.get(i).getAmount() %>&nbsp;</td>
+					<td><%= orders.get(i).getPaytime().toString() %>&nbsp;</td>
+				</tr>
+		<%
+			}
+		%>
+		</table>
+	<%
+		} else {
+	%>
+		<p>No orders yet!
+			<a href = "book.action">booklist</a>?</p>
+	<%
+		}
+	%>
+	</div>
+	
+	<div>
+		<jsp:include page = "/foot.jsp" />
+	</div>
+
+</body>
+</html>

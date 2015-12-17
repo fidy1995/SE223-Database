@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="dpp.bookstore.pojo">
+	<class name = "Book" table = "books">
+		<id name = "isbn" column = "isbn" type = "java.lang.String">
+			<generator class = "assigned" />
+		</id>
+		<property name = "title" column = "title" type = "java.lang.String" />
+		<property name = "category" column = "category" type = "java.lang.String" />
+		<property name = "price" column = "price" type = "double" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+    "http://struts.apache.org/dtds/struts-2.3.dtd">  
+      
+<struts>  
+    <constant name="struts.i18n.encoding" value="UTF-8" />
+    <constant name="struts.action.extension" value="action" />
+    <constant name="struts.serve.static.browserCache" value="false" />
+
+    <package name="userActions-user" extends="struts-default">
+
+        <action name="login" class="loginAction">
+            <result name="success">/index.jsp</result>
+            <result name="failed">/login.jsp</result>
+        </action>
+        
+        <action name = "register" class = "registerAction">
+        	<result name = "index" type = "chain">
+				<param name = "actionName">insertProfile</param>
+				<param name = "packageName">userProfileAction</param>
+			</result>
+        	<result name = "failed">/register.jsp</result>
+        </action>
+        
+        <action name = "logout" class = "dpp.bookstore.action.user.LogoutAction">
+        	<result name = "return">/index.jsp</result>
+        </action>
+        
+        <action name = "editpass" class = "editPasswordAction">
+        	<result name = "return" type = "chain">
+        		<param name = "actionName">queryProfile</param>
+        		<param name = "packageName">userProfileAction</param>	
+        	</result>
+        	<result name = "admin" type = "chain">
+        		<param name = "actionName">queryProfile</param>
+        		<param name = "packageName">userProfileAction</param>
+        	</result>
+        </action>
+    </package>
+    
+    <package name = "userActions-admin" extends = "struts-default">
+    	
+    	<action name = "queryUser" class = "queryUserAction">
+    		<result name = "return">/admin/user/userlist.jsp</result>
+    	</action>
+    	
+    	<action name = "deleteUser" class = "deleteUserAction">
+    		<result name = "return" type = "chain">
+    			<param name = "actionName">deleteProfile</param>
+    			<param name = "packageName">userProfileAction</param>
+    		</result>
+    	</action>
+    	
+    </package>
+    
+    <package name = "bookActions" extends = "struts-default">
+    	
+    	<action name = "book" class = "queryBookAction">
+    		<result name = "return">/book/booklist.jsp</result>
+    		<result name = "admin">/admin/book/booklist.jsp</result>
+    	</action>
+    	
+    	<action name = "addBook" class = "updateBookAction">
+    		<result name = "admin">/admin/book/addbook.jsp</result>
+    		<result name = "index">/index.jsp</result>
+    	</action>
+    	
+    	<action name = "deleteBook" class = "deleteBookAction">
+    		<result name = "admin" type = "chain">
+    			<param name = "actionName">book</param>
+    		</result>
+    		<result name = "index">/index.jsp</result>
+    	</action>
+    	
+    </package>
+    
+    <package name = "cartActions" extends = "struts-default">
+    
+    	<action name = "cart" class = "dpp.bookstore.action.cart.QueryCartAction">
+    		<result name = "return">/cart/cart.jsp</result>
+    	</action>
+    	
+    	<action name = "updateCart" class = "dpp.bookstore.action.cart.UpdateCartAction">
+    		<result name = "return" type = "chain">
+    			<param name = "actionName">cart</param>
+    		</result>
+    	</action>
+    	
+    	<action name = "deleteCart" class = "dpp.bookstore.action.cart.DeleteCartAction">
+    		<result name = "return" type = "chain">
+    			<param name = "actionName">cart</param>
+    		</result>
+    	</action>
+    	
+    	<action name = "pay" class = "payAction">
+    		<result name = "query" type = "chain">
+    			<param name = "actionName">book</param>
+    			<param name = "packageName">bookActions</param>
+    		</result>
+    		<result name = "return" type = "chain">
+    			<param name = "actionName">order</param>
+    		</result>
+    	</action>
+    	
+    	<action name = "order" class = "showOrderAction">
+    		<result name = "admin">/admin/stats/order.jsp</result>
+    		<result name = "return">/cart/order.jsp</result>
+    	</action>
+    	
+    </package>
+    
+    <package name = "statsActions" extends = "struts-default">
+    
+    	<action name = "userStats" class = "userStatsAction">
+    		<result name = "return">/stats/stats.jsp</result>
+    		<result name = "index">/index.jsp</result>
+    	</action>
+    	
+    	<action name = "catStats" class = "categoryStatsAction">
+    		<result name = "return">/stats/stats.jsp</result>
+    		<result name = "index">/index.jsp</result>
+    	</action>
+    	
+    	<action name = "timeStats" class = "timeStatsAction">
+    		<result name = "return">/stats/stats.jsp</result>
+    		<result name = "index">/index.jsp</result>
+    	</action>
+    
+    </package>
+    
+    <package name = "userProfileActions" extends = "struts-default">
+    
+    	<action name = "insertProfile" class = "dpp.bookstore.action.profile.InsertUserProfileAction">
+    		<result name = "return">/index.jsp</result>
+    	</action>
+    	
+    	<action name = "deleteProfile" class = "dpp.bookstore.action.profile.DeleteUserProfileAction">
+    		<result name = "return" type = "chain">
+    			<param name = "actionName">queryUser</param>
+    			<param name = "packageName">userActions-admin</param>
+    		</result>
+    	</action>
+    	
+    	<action name = "queryProfile" class = "dpp.bookstore.action.profile.QueryUserProfileAction">
+    		<result name = "return">/user/profile.jsp</result>
+    		<result name = "admin">/admin/user/viewuser.jsp</result>
+    	</action>
+    	
+    	<action name = "updateProfile" class = "dpp.bookstore.action.profile.UpdateUserProfileAction">
+    		<result name = "return" type = "chain">
+    			<param name = "actionName">queryProfile</param>
+    		</result>
+    	</action>
+    
+    </package>
+    
+</struts>   
